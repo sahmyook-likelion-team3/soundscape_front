@@ -23,7 +23,7 @@ export default function BottomNav({
   const activeClass = "flex h-12.75 w-19.5 items-center justify-center rounded-full";
 
   return (
-    <nav className="flex h-18.5 shrink-0 items-center justify-around border-t border-gray-200 bg-white">
+    <nav className="flex h-18.5 shrink-0 items-center justify-around bg-white shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)]">
       <button
         type="button"
         aria-label="홈"

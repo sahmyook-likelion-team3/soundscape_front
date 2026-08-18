@@ -1,27 +1,33 @@
 /*
  * app/page.tsx 화면
- * Description : / — 홈
+ * Description : / — 홈 (저장한 플레이리스트 미리보기)
  * Author       : 배서현
  * Contributors :
  * Created      : 2026-08-05
- * Last Update  : 2026-08-06
+ * Last Update  : 2026-08-19
  */
 
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import MiniPlayer from "@/components/MiniPlayer";
 import BottomNav from "@/components/BottomNav";
-
-const playlists = [
-  { title: "고즈넉한 분위기", src: "/images/Home/playlist-1.jpg" },
-  { title: "흐린 날 듣는 노래", src: "/images/Home/playlist-2.jpg" },
-  { title: "오후 8시 한강에서", src: "/images/Home/playlist-3.jpg" },
-  { title: "밤에 듣는 시티팝", src: "/images/Home/playlist-4.jpg" },
-  { title: "봄이 올 때 듣는 노래", src: "/images/Home/playlist-5.jpg" },
-  { title: "카페에서 공부할 때", src: "/images/Home/playlist-6.jpg" },
-];
+import Cover from "@/components/Cover";
+import { coverOf, getPlaylists, type PlaylistSummary } from "@/lib/api";
 
 export default function HomePage() {
+  const [playlists, setPlaylists] = useState<PlaylistSummary[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getPlaylists()
+      .then((list) => setPlaylists(list.slice(0, 6)))
+      .catch((e: Error) => setError(e.message));
+  }, []);
+
   return (
     <PageShell>
       <div className="relative flex h-96.25 shrink-0 flex-col justify-start gap-5.25 bg-linear-to-br from-[#67469A] to-[#F73D88] px-6 pt-19 text-white">
@@ -42,9 +48,12 @@ export default function HomePage() {
           className="absolute top-16.25 right-4"
         />
 
-        <button className="absolute top-71.75 right-4 left-4 rounded-full bg-white/10 py-2.75 text-sm font-medium text-white shadow-[0px_1px_10px_0px_rgba(156,156,156,0.25)]">
+        <Link
+          href="/camera"
+          className="absolute top-71.75 right-4 left-4 rounded-full bg-white/10 py-2.75 text-center text-sm font-medium text-white shadow-[0px_1px_10px_0px_rgba(156,156,156,0.25)]"
+        >
           + 플레이리스트 생성하기
-        </button>
+        </Link>
       </div>
 
       <div className="flex flex-1 flex-col rounded-t-[10px] bg-white shadow-[0px_-4px_8px_0px_rgba(39,17,72,0.25)]">
@@ -53,32 +62,35 @@ export default function HomePage() {
             <h2 className="text-base font-semibold text-[#1b1b1b]">
               저장한 플레이리스트
             </h2>
-            <button
-              type="button"
+            <Link
+              href="/library"
               className="flex items-center gap-2 text-xs font-medium text-[#7a7a7a]"
             >
               전체보기
               <Image src="/icons/chevron-right.svg" alt="" width={5} height={8} />
-            </button>
+            </Link>
           </div>
 
+          {error && <p className="text-xs font-medium text-[#f73d88]">{error}</p>}
+
+          {!error && playlists?.length === 0 && (
+            <p className="text-sm font-medium text-[#7a7a7a]">
+              아직 저장한 플레이리스트가 없어요.
+            </p>
+          )}
+
           <div className="grid grid-cols-3 gap-x-4.75 gap-y-4.5">
-            {playlists.map((playlist) => (
-              <div
-                key={playlist.title}
+            {playlists?.map((playlist) => (
+              <Link
+                key={playlist.playlistId}
+                href={`/playlists/${playlist.playlistId}`}
                 className="relative aspect-square overflow-hidden rounded-xl"
               >
-                <Image
-                  src={playlist.src}
-                  alt={playlist.title}
-                  fill
-                  sizes="33vw"
-                  className="object-cover"
-                />
+                <Cover src={coverOf(playlist)} alt={playlist.title} sizes="33vw" />
                 <p className="absolute bottom-2 left-2 text-xs font-medium text-white drop-shadow">
                   {playlist.title}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

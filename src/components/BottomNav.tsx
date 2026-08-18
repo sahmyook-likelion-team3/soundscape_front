@@ -4,10 +4,11 @@
  * Author       : 배서현
  * Contributors :
  * Created      : 2026-08-05
- * Last Update  : 2026-08-06
+ * Last Update  : 2026-08-19
  */
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function BottomNav({
   active,
@@ -24,8 +25,8 @@ export default function BottomNav({
 
   return (
     <nav className="flex h-18.5 shrink-0 items-center justify-around bg-white shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)]">
-      <button
-        type="button"
+      <Link
+        href="/"
         aria-label="홈"
         className={active === "home" ? activeClass : undefined}
         style={active === "home" ? { backgroundColor: activeColor } : undefined}
@@ -36,12 +37,12 @@ export default function BottomNav({
           width={homeIcon === "outline" ? 32 : 36}
           height={homeIcon === "outline" ? 32 : 36}
         />
-      </button>
-      <button type="button" aria-label="추가">
+      </Link>
+      <Link href="/camera" aria-label="플레이리스트 만들기">
         <Image src="/icons/plus.svg" alt="" width={37} height={37} />
-      </button>
-      <button
-        type="button"
+      </Link>
+      <Link
+        href="/profile"
         aria-label="프로필"
         className={active === "profile" ? activeClass : undefined}
         style={active === "profile" ? { backgroundColor: activeColor } : undefined}
@@ -52,7 +53,7 @@ export default function BottomNav({
           width={profileIcon === "small" ? 25 : 34}
           height={profileIcon === "small" ? 25 : 34}
         />
-      </button>
+      </Link>
     </nav>
   );
 }

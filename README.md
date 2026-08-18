@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## 백엔드 연동
+
+`.env.local` 에 Spring Boot 주소를 넣는다. (`.env.example` 참고)
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+```
+
+모든 요청은 `{NEXT_PUBLIC_API_BASE_URL}/api/v1` 로 나가고, 사용자별 API 에는
+`localStorage.userId`(없으면 `1`)를 `X-User-Id` 헤더로 붙인다.
+
+- API 클라이언트·타입: `src/lib/api.ts`
+- 오디오 재생 스토어: `src/lib/player.ts`
+- 저장 전 추천 결과 보관: `src/lib/recommendation.ts`
+
+백엔드 CORS 는 `allowedHeaders` 에 `Content-Type, X-User-Id` 를 포함해야 한다.

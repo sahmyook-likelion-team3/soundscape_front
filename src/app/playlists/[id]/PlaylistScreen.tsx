@@ -119,7 +119,14 @@ export default function PlaylistScreen({ id }: { id: string }) {
         {error ? (
           <p className="px-4 text-sm font-medium text-[#f73d88]">{error}</p>
         ) : (
-          <TrackList music={music} onSelect={(index) => playQueue(music, index)} />
+          <TrackList
+            music={music}
+            onSelect={(index) => {
+              // 디자인: 곡을 누르면 현재 음악 화면으로 이동한다.
+              playQueue(music, index);
+              router.push("/player");
+            }}
+          />
         )}
       </div>
 

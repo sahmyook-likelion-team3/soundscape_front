@@ -8,6 +8,7 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import BottomNav from "@/components/BottomNav";
 
@@ -30,12 +31,12 @@ export default function MyPageScreen() {
             </div>
             <p className="text-lg font-semibold text-[#757575]">로그인 해주세요</p>
           </div>
-          <button
-            type="button"
+          <Link
+            href="/login"
             className="rounded-full bg-[#c6c6c6] px-4.5 py-1.5 text-xs font-medium text-[#474747]"
           >
             로그인
-          </button>
+          </Link>
         </div>
 
         <button

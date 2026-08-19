@@ -24,11 +24,11 @@ function subscribeToStorage(callback: () => void) {
 }
 
 function getNicknameSnapshot() {
-  return getNickname() ?? "OO";
+  return getNickname() ?? "사용자";
 }
 
 function getNicknameServerSnapshot() {
-  return "OO";
+  return "사용자";
 }
 
 export default function HomePage() {

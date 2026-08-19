@@ -16,11 +16,18 @@ import PageShell from "@/components/PageShell";
 import MiniPlayer from "@/components/MiniPlayer";
 import BottomNav from "@/components/BottomNav";
 import Cover from "@/components/Cover";
-import { coverOf, formatDate, getPlaylists, type PlaylistSummary } from "@/lib/api";
+import {
+  coverOf,
+  deletePlaylist,
+  formatDate,
+  getPlaylists,
+  type PlaylistSummary,
+} from "@/lib/api";
 
 export default function LibraryScreen() {
   const [items, setItems] = useState<PlaylistSummary[] | null>(null);
   const [openMenu, setOpenMenu] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,6 +35,20 @@ export default function LibraryScreen() {
       .then(setItems)
       .catch((e: Error) => setError(e.message));
   }, []);
+
+  const remove = async (playlistId: number) => {
+    setDeleting(playlistId);
+    setError(null);
+    try {
+      await deletePlaylist(playlistId);
+      setItems((prev) => prev?.filter((p) => p.playlistId !== playlistId) ?? null);
+      setOpenMenu(null);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   return (
     <PageShell>
@@ -107,22 +128,13 @@ export default function LibraryScreen() {
                     height={10}
                     className="mr-1"
                   />
-                  {/* ponytail: 명세에 삭제 엔드포인트가 없어 목록에서만 감춘다.
-                      새로고침하면 다시 보인다. DELETE /playlists/{id} 나오면 교체. */}
                   <button
                     type="button"
-                    onClick={() => {
-                      setItems(
-                        (prev) =>
-                          prev?.filter(
-                            (p) => p.playlistId !== playlist.playlistId,
-                          ) ?? null,
-                      );
-                      setOpenMenu(null);
-                    }}
-                    className="rounded-[10px] bg-white px-6 py-1.5 text-xs font-semibold text-[#7a7a7a] shadow-[0px_1px_10px_2px_rgba(156,156,156,0.15)]"
+                    onClick={() => remove(playlist.playlistId)}
+                    disabled={deleting === playlist.playlistId}
+                    className="rounded-[10px] bg-white px-6 py-1.5 text-xs font-semibold text-[#7a7a7a] shadow-[0px_1px_10px_2px_rgba(156,156,156,0.15)] disabled:opacity-60"
                   >
-                    삭제하기
+                    {deleting === playlist.playlistId ? "삭제 중…" : "삭제하기"}
                   </button>
                 </div>
               )}

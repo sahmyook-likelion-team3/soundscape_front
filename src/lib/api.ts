@@ -119,6 +119,8 @@ async function request<T>(path: string, init: RequestInit = {}, auth = false) {
       body?.message ?? `요청에 실패했습니다. (${res.status})`,
     );
   }
+  // 204 No Content 는 본문이 없다. (삭제)
+  if (res.status === 204) return undefined as T;
   return (await res.json()) as T;
 }
 
@@ -161,6 +163,11 @@ export async function getPlaylists() {
     true,
   );
   return data.playlists;
+}
+
+/** 성공 시 204. 없거나 다른 사용자의 플레이리스트면 404. */
+export function deletePlaylist(playlistId: number) {
+  return request<void>(`/playlists/${playlistId}`, { method: "DELETE" }, true);
 }
 
 export function getPlaylist(playlistId: number | string) {

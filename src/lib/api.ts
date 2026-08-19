@@ -141,7 +141,7 @@ export function logout(): void {
   localStorage.removeItem("username");
 }
 
-export type AuthResponse = { userId: number };
+export type AuthResponse = { userId: number; nickname?: string };
 
 export function signup(input: { username: string; password: string; nickname: string }) {
   return request<AuthResponse>("/auth/signup", {

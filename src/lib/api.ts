@@ -105,6 +105,41 @@ export function getUserId(): string {
   return localStorage.getItem("userId") ?? "1";
 }
 
+/** 회원가입/로그인 성공 시 서버가 내려준 userId 를 저장한다. */
+export function setUserId(userId: number | string): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("userId", String(userId));
+}
+
+/** 홈 화면 인사말("OO님.")에 쓸 닉네임. 없으면 null. */
+export function getNickname(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("nickname");
+}
+
+export function setNickname(nickname: string): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("nickname", nickname);
+}
+
+export type AuthResponse = { userId: number };
+
+export function signup(input: { username: string; password: string; nickname: string }) {
+  return request<AuthResponse>("/auth/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+}
+
+export function login(input: { username: string; password: string }) {
+  return request<AuthResponse>("/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+}
+
 async function request<T>(path: string, init: RequestInit = {}, auth = false) {
   const headers = new Headers(init.headers);
   if (auth) headers.set("X-User-Id", getUserId());

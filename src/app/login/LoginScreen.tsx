@@ -31,44 +31,49 @@ export default function LoginScreen() {
 
   return (
     <PageShell className="bg-linear-to-br from-[#67469A] to-[#F73D88] px-3.5">
-      {/* 디자인 좌표: 로고 y208 109x237, 입력 y515/y584, 버튼 y674, 링크 y759 */}
+      {/* 디자인 좌표(Figma node 66:332, 403x877 프레임 기준): 로고 top208 109x237,
+          입력그룹 top515(내부 gap12) + 버튼까지 outer gap33, 링크 top759 */}
       <div className="mt-52 flex shrink-0 justify-center">
         <Image src="/icons/logo-mark.svg" alt="SoundScape" width={109} height={237} />
       </div>
 
-      <div className="mt-17.5 flex flex-col gap-3">
-        <input
-          type="text"
-          name="username"
-          autoComplete="username"
-          placeholder="아이디"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="h-14.25 rounded-[10px] bg-white px-5 text-center text-base text-[#1b1b1b] placeholder:text-[#7a7a7a]"
-        />
-        <input
-          type="password"
-          name="password"
-          autoComplete="current-password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="h-14.25 rounded-[10px] bg-white px-5 text-center text-base text-[#1b1b1b] placeholder:text-[#7a7a7a]"
-        />
-
-        {error && (
-          <p className="text-center text-xs font-semibold text-white">{error}</p>
-        )}
+      <div className="mt-17.5 flex flex-col gap-8.25">
+        <div className="flex flex-col gap-3">
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            placeholder="아이디"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="h-14.25 rounded-[10px] bg-white px-5 text-center text-base text-[#1b1b1b] placeholder:text-[#7a7a7a]"
+          />
+          <input
+            type="password"
+            name="password"
+            autoComplete="current-password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="h-14.25 rounded-[10px] bg-white px-5 text-center text-base text-[#1b1b1b] placeholder:text-[#7a7a7a]"
+          />
+        </div>
 
         <button
           type="button"
           disabled={submitting}
           onClick={handleLogin}
-          className="mt-8.25 h-14.25 rounded-[10px] bg-[#67469a] text-base font-semibold text-white disabled:opacity-60"
+          className="h-14.25 rounded-[10px] bg-[#67469a] text-base font-semibold text-white disabled:opacity-60"
         >
           {submitting ? "로그인 중..." : "로그인"}
         </button>
       </div>
+
+      {error && (
+        <p className="absolute top-184.75 right-3.5 left-3.5 text-center text-xs font-semibold text-white">
+          {error}
+        </p>
+      )}
 
       <div className="mt-7 flex justify-center gap-16 text-sm font-medium text-white">
         {/* 디자인에 비밀번호 찾기 화면이 없어 이동 대상이 없다. */}

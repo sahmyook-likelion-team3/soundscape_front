@@ -47,7 +47,12 @@ export default function MiniPlayer() {
             onClick={toggle}
             disabled={!track}
           >
-            <Image src="/icons/play.svg" alt="" width={21} height={21} />
+            <Image
+              src={player.playing ? "/icons/pause.svg" : "/icons/play.svg"}
+              alt=""
+              width={21}
+              height={21}
+            />
           </button>
           <button type="button" aria-label="다음 곡" onClick={next} disabled={!track}>
             <Image src="/icons/next.svg" alt="" width={28} height={18} />

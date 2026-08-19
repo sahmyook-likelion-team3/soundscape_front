@@ -11,7 +11,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import PageShell from "@/components/PageShell";
-import { ApiError, setNickname as saveNickname, setUserId, signup } from "@/lib/api";
+import {
+  ApiError,
+  setNickname as saveNickname,
+  setUserId,
+  setUsername as saveUsername,
+  signup,
+} from "@/lib/api";
 
 const INPUT_CLASS =
   "h-13.5 w-full rounded-[10px] bg-[#eaeaea] px-4 text-center text-base font-semibold text-[#1b1b1b] placeholder:text-[#7a7a7a] focus:outline-none";
@@ -65,6 +71,7 @@ export default function SignupScreen() {
       const res = await signup({ username, password, nickname });
       setUserId(res.userId);
       saveNickname(nickname);
+      saveUsername(username);
       router.push("/");
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "회원가입에 실패했습니다.");

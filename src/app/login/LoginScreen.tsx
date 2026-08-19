@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PageShell from "@/components/PageShell";
-import { ApiError, login, setUserId } from "@/lib/api";
+import { ApiError, login, setUserId, setUsername as saveUsername } from "@/lib/api";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -22,6 +22,7 @@ export default function LoginScreen() {
     try {
       const res = await login({ username, password });
       setUserId(res.userId);
+      saveUsername(username);
       router.replace("/");
     } catch (e) {
       setError(e instanceof ApiError ? e.message : "로그인에 실패했습니다.");

@@ -1,13 +1,33 @@
 
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PageShell from "@/components/PageShell";
+import { ApiError, login, setUserId } from "@/lib/api";
 
 export default function LoginScreen() {
   const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleLogin() {
+    if (!username || !password || submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await login({ username, password });
+      setUserId(res.userId);
+      router.replace("/");
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "로그인에 실패했습니다.");
+      setSubmitting(false);
+    }
+  }
 
   return (
     <PageShell className="bg-linear-to-br from-[#67469A] to-[#F73D88] px-3.5">
@@ -22,6 +42,8 @@ export default function LoginScreen() {
           name="username"
           autoComplete="username"
           placeholder="아이디"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="h-14.25 rounded-[10px] bg-white px-5 text-center text-base text-[#1b1b1b] placeholder:text-[#7a7a7a]"
         />
         <input
@@ -29,16 +51,22 @@ export default function LoginScreen() {
           name="password"
           autoComplete="current-password"
           placeholder="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="h-14.25 rounded-[10px] bg-white px-5 text-center text-base text-[#1b1b1b] placeholder:text-[#7a7a7a]"
         />
 
-        {/* MVP 는 실제 인증이 없다. 명세대로 localStorage.userId 를 X-User-Id 로만 쓴다. */}
+        {error && (
+          <p className="text-center text-xs font-semibold text-white">{error}</p>
+        )}
+
         <button
           type="button"
-          onClick={() => router.replace("/")}
-          className="mt-8.25 h-14.25 rounded-[10px] bg-[#67469a] text-base font-semibold text-white"
+          disabled={submitting}
+          onClick={handleLogin}
+          className="mt-8.25 h-14.25 rounded-[10px] bg-[#67469a] text-base font-semibold text-white disabled:opacity-60"
         >
-          로그인
+          {submitting ? "로그인 중..." : "로그인"}
         </button>
       </div>
 

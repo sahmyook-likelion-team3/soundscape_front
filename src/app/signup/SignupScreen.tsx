@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import PageShell from "@/components/PageShell";
+import { ApiError, setNickname as saveNickname, setUserId, signup } from "@/lib/api";
 
 const INPUT_CLASS =
   "h-13.5 w-full rounded-[10px] bg-[#eaeaea] px-4 text-center text-base font-semibold text-[#1b1b1b] placeholder:text-[#7a7a7a] focus:outline-none";
@@ -48,11 +49,28 @@ export default function SignupScreen() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [nickname, setNickname] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const passwordsMatch =
     password.length > 0 && passwordConfirm.length > 0 && password === passwordConfirm;
   const isValid =
     username.trim().length > 0 && passwordsMatch && nickname.trim().length > 0;
+
+  async function handleSubmit() {
+    if (!isValid || submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await signup({ username, password, nickname });
+      setUserId(res.userId);
+      saveNickname(nickname);
+      router.push("/");
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "회원가입에 실패했습니다.");
+      setSubmitting(false);
+    }
+  }
 
   return (
     <PageShell>
@@ -114,13 +132,20 @@ export default function SignupScreen() {
 
           <button
             type="button"
-            disabled={!isValid}
+            disabled={!isValid || submitting}
+            onClick={handleSubmit}
             className={`absolute top-184.25 left-4 h-14.25 w-92.5 rounded-[10px] text-base font-semibold text-white transition-colors ${
               isValid ? "bg-[#f73d88]" : "bg-[#7a7a7a]"
             }`}
           >
-            가입하기
+            {submitting ? "가입 중..." : "가입하기"}
           </button>
+
+          {error && (
+            <p className="absolute top-201.75 left-4 w-92.5 text-center text-xs font-semibold text-[#f73d88]">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </PageShell>

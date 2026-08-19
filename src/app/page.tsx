@@ -9,18 +9,36 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import MiniPlayer from "@/components/MiniPlayer";
 import BottomNav from "@/components/BottomNav";
 import Cover from "@/components/Cover";
-import { coverOf, getPlaylists, type PlaylistSummary } from "@/lib/api";
+import { coverOf, getNickname, getPlaylists, type PlaylistSummary } from "@/lib/api";
+
+function subscribeToStorage(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getNicknameSnapshot() {
+  return getNickname() ?? "OO";
+}
+
+function getNicknameServerSnapshot() {
+  return "OO";
+}
 
 export default function HomePage() {
   const [playlists, setPlaylists] = useState<PlaylistSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const nickname = useSyncExternalStore(
+    subscribeToStorage,
+    getNicknameSnapshot,
+    getNicknameServerSnapshot,
+  );
 
   useEffect(() => {
     getPlaylists()
@@ -38,7 +56,7 @@ export default function HomePage() {
         <p className="text-2xl leading-snug font-bold">
           안녕하세요,
           <br />
-          OO님.
+          {nickname}님.
         </p>
         <Image
           src="/images/Home/note.png"

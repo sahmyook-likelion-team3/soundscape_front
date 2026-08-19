@@ -122,6 +122,13 @@ export function setNickname(nickname: string): void {
   localStorage.setItem("nickname", nickname);
 }
 
+/** 로그아웃: 저장해둔 userId/nickname 을 지운다. */
+export function logout(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem("userId");
+  localStorage.removeItem("nickname");
+}
+
 export type AuthResponse = { userId: number };
 
 export function signup(input: { username: string; password: string; nickname: string }) {

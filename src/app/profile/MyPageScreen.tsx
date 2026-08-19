@@ -7,10 +7,14 @@
  * Last Update  : 2026-08-06
  */
 
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PageShell from "@/components/PageShell";
 import BottomNav from "@/components/BottomNav";
+import { logout } from "@/lib/api";
 
 const menuSections = [
   ["로그아웃", "회원 탈퇴", "비밀번호 변경"],
@@ -19,6 +23,16 @@ const menuSections = [
 ];
 
 export default function MyPageScreen() {
+  const router = useRouter();
+
+  function handleMenuClick(label: string) {
+    if (label === "로그아웃") {
+      logout();
+      router.push("/");
+      router.refresh();
+    }
+  }
+
   return (
     <PageShell>
       <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto bg-[#fafafa] px-4 pt-24.25">
@@ -56,6 +70,7 @@ export default function MyPageScreen() {
                 <button
                   key={label}
                   type="button"
+                  onClick={() => handleMenuClick(label)}
                   className={`flex h-12 w-full items-center px-4 text-left text-base ${
                     label === "premium 관리"
                       ? "font-semibold text-[#67469a]"

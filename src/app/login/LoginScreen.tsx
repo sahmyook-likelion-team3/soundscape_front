@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PageShell from "@/components/PageShell";
 
@@ -42,9 +43,9 @@ export default function LoginScreen() {
       </div>
 
       <div className="mt-7 flex justify-center gap-16 text-sm font-medium text-white">
-        {/* 디자인에 비밀번호 찾기·회원가입 화면이 없어 이동 대상이 없다. */}
+        {/* 디자인에 비밀번호 찾기 화면이 없어 이동 대상이 없다. */}
         <span>비밀번호 찾기</span>
-        <span>회원가입</span>
+        <Link href="/signup">회원가입</Link>
       </div>
     </PageShell>
   );

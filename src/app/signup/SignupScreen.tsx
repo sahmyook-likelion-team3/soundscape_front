@@ -60,6 +60,8 @@ export default function SignupScreen() {
 
   const passwordsMatch =
     password.length > 0 && passwordConfirm.length > 0 && password === passwordConfirm;
+  const passwordsMismatch =
+    password.length > 0 && passwordConfirm.length > 0 && password !== passwordConfirm;
   const isValid =
     username.trim().length > 0 && passwordsMatch && nickname.trim().length > 0;
 
@@ -125,7 +127,7 @@ export default function SignupScreen() {
             />
           </div>
           <p className="absolute top-128.5 left-4.75 text-xs font-semibold text-[#f73d88]">
-            {passwordsMatch ? "확인되었습니다." : ""}
+            {passwordsMatch ? "확인되었습니다." : passwordsMismatch ? "불일치합니다." : ""}
           </p>
 
           <div className="absolute top-144 left-4 w-92.5">

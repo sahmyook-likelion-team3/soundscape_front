@@ -74,7 +74,7 @@ export default function PlayerScreen() {
 
       <div className="mt-2.25 flex items-center justify-center gap-8">
         <button type="button" aria-label="이전 곡" onClick={prev} disabled={!track}>
-          <Image src="/icons/prev.svg" alt="" width={53} height={35} />
+          <Image src="/icons/prev-purple.svg" alt="" width={53} height={35} />
         </button>
         <button
           type="button"
@@ -83,16 +83,10 @@ export default function PlayerScreen() {
           disabled={!track}
           className="flex h-9 w-11 items-center justify-center"
         >
-          <Image
-            src="/icons/play-triangle-gray.svg"
-            alt=""
-            width={36}
-            height={41}
-            className="rotate-90"
-          />
+          <Image src="/icons/play-purple.svg" alt="" width={36} height={36} />
         </button>
         <button type="button" aria-label="다음 곡" onClick={next} disabled={!track}>
-          <Image src="/icons/next.svg" alt="" width={53} height={35} />
+          <Image src="/icons/next-purple.svg" alt="" width={53} height={35} />
         </button>
       </div>
 

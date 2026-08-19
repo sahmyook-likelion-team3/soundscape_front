@@ -122,11 +122,23 @@ export function setNickname(nickname: string): void {
   localStorage.setItem("nickname", nickname);
 }
 
-/** 로그아웃: 저장해둔 userId/nickname 을 지운다. */
+/** 마이페이지에 표시할 로그인 아이디. 로그인 전이면 null. */
+export function getUsername(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("username");
+}
+
+export function setUsername(username: string): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("username", username);
+}
+
+/** 로그아웃: 저장해둔 userId/nickname/username 을 지운다. */
 export function logout(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem("userId");
   localStorage.removeItem("nickname");
+  localStorage.removeItem("username");
 }
 
 export type AuthResponse = { userId: number };

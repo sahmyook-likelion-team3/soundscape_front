@@ -9,12 +9,13 @@
 
 "use client";
 
+import { useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PageShell from "@/components/PageShell";
 import BottomNav from "@/components/BottomNav";
-import { logout } from "@/lib/api";
+import { getUsername, logout } from "@/lib/api";
 
 const menuSections = [
   ["로그아웃", "회원 탈퇴", "비밀번호 변경"],
@@ -22,8 +23,22 @@ const menuSections = [
   ["고객센터", "개인정보 처리방침", "약관 및 정책"],
 ];
 
+function subscribeToStorage(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getUsernameServerSnapshot() {
+  return null;
+}
+
 export default function MyPageScreen() {
   const router = useRouter();
+  const username = useSyncExternalStore(
+    subscribeToStorage,
+    getUsername,
+    getUsernameServerSnapshot,
+  );
 
   function handleMenuClick(label: string) {
     if (label === "로그아웃") {
@@ -43,7 +58,9 @@ export default function MyPageScreen() {
             <div className="flex h-20.25 w-20.25 items-center justify-center rounded-full bg-[#c6c6c6]">
               <Image src="/icons/profile-login-arrow.svg" alt="" width={30} height={35} />
             </div>
-            <p className="text-lg font-semibold text-[#757575]">로그인 해주세요</p>
+            <p className="text-lg font-semibold text-[#757575]">
+              {username ?? "로그인 해주세요"}
+            </p>
           </div>
           <Link
             href="/login"

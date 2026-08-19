@@ -83,7 +83,12 @@ export default function PlayerScreen() {
           disabled={!track}
           className="flex h-9 w-11 items-center justify-center"
         >
-          <Image src="/icons/play-purple.svg" alt="" width={36} height={36} />
+          <Image
+            src={player.playing ? "/icons/pause-purple.svg" : "/icons/play-purple.svg"}
+            alt=""
+            width={36}
+            height={36}
+          />
         </button>
         <button type="button" aria-label="다음 곡" onClick={next} disabled={!track}>
           <Image src="/icons/next-purple.svg" alt="" width={53} height={35} />

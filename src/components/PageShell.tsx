@@ -7,7 +7,9 @@
  * Last Update  : 2026-08-06
  */
 
-import { type ReactNode } from "react";
+"use client";
+
+import { type ReactNode, useEffect } from "react";
 
 export default function PageShell({
   children,
@@ -16,9 +18,23 @@ export default function PageShell({
   children: ReactNode;
   className?: string;
 }) {
+  useEffect(() => {
+    const setAppHeight = () => {
+      document.documentElement.style.setProperty("--app-dvh", `${window.innerHeight}px`);
+    };
+    setAppHeight();
+    window.addEventListener("resize", setAppHeight);
+    window.addEventListener("orientationchange", setAppHeight);
+    return () => {
+      window.removeEventListener("resize", setAppHeight);
+      window.removeEventListener("orientationchange", setAppHeight);
+    };
+  }, []);
+
   return (
     <main
-      className={`relative mx-auto flex h-dvh w-full max-w-100.5 flex-col overflow-hidden bg-white ${className}`}
+      className={`relative mx-auto flex w-full max-w-100.5 flex-col overflow-hidden bg-white ${className}`}
+      style={{ height: "var(--app-dvh, 100dvh)" }}
     >
       {children}
     </main>

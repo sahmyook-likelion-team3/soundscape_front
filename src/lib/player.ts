@@ -26,6 +26,8 @@ let state: PlayerState = {
 
 const listeners = new Set<() => void>();
 let audio: HTMLAudioElement | null = null;
+let gainNode: GainNode | null = null;
+let audioCtx: AudioContext | null = null;
 
 function set(patch: Partial<PlayerState>) {
   state = { ...state, ...patch };
@@ -35,7 +37,6 @@ function set(patch: Partial<PlayerState>) {
 function el() {
   if (!audio) {
     audio = new Audio();
-    audio.volume = state.volume;
     audio.addEventListener("timeupdate", () =>
       set({
         position: audio!.currentTime,
@@ -48,6 +49,18 @@ function el() {
     audio.addEventListener("play", () => set({ playing: true }));
     audio.addEventListener("pause", () => set({ playing: false }));
     audio.addEventListener("ended", () => next());
+
+    // iOS Safari는 audio.volume을 무시하고 항상 시스템 볼륨을 따르므로,
+    // Web Audio API의 GainNode를 거쳐 볼륨을 조절한다.
+    const AudioContextCtor =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext })
+        .webkitAudioContext;
+    audioCtx = new AudioContextCtor();
+    gainNode = audioCtx.createGain();
+    gainNode.gain.value = state.volume;
+    audioCtx.createMediaElementSource(audio).connect(gainNode);
+    gainNode.connect(audioCtx.destination);
   }
   return audio;
 }
@@ -56,6 +69,7 @@ function load() {
   const track = state.queue[state.index];
   if (!track) return;
   const a = el();
+  audioCtx?.resume();
   a.src = track.audioUrl;
   set({ position: 0, duration: 0 });
   // 자동재생 차단 등은 무시하고 정지 상태로 둔다.
@@ -73,6 +87,7 @@ export function toggle() {
     load();
     return;
   }
+  audioCtx?.resume();
   if (state.playing) a.pause();
   else a.play().catch(() => set({ playing: false }));
 }
@@ -103,7 +118,8 @@ export function seek(seconds: number) {
 }
 
 export function setVolume(volume: number) {
-  el().volume = volume;
+  el();
+  if (gainNode) gainNode.gain.value = volume;
   set({ volume });
 }
 

@@ -48,7 +48,7 @@ export default function HomePage() {
 
   return (
     <PageShell>
-      <div className="relative flex h-96.25 shrink-0 flex-col justify-start gap-5.25 bg-linear-to-br from-[#67469A] to-[#F73D88] px-6 pt-19 text-white">
+      <div className="relative flex h-85.25 shrink-0 flex-col justify-start gap-5.25 bg-linear-to-br from-[#67469A] to-[#F73D88] px-6 pt-8 text-white">
         <div className="flex items-center gap-3.5">
           <Image src="/icons/logo-mark.svg" alt="" width={22} height={47} />
           <p className="text-lg font-semibold">SoundScape</p>
@@ -63,12 +63,12 @@ export default function HomePage() {
           alt="음표 이미지"
           width={221.91}
           height={221.91}
-          className="absolute top-16.25 right-4"
+          className="absolute top-5.25 right-4"
         />
 
         <Link
           href="/camera"
-          className="absolute top-71.75 right-4 left-4 rounded-full bg-white/10 py-2.75 text-center text-sm font-medium text-white shadow-[0px_1px_10px_0px_rgba(156,156,156,0.25)]"
+          className="absolute top-60.75 right-4 left-4 rounded-full bg-white/10 py-2.75 text-center text-sm font-medium text-white shadow-[0px_1px_10px_0px_rgba(156,156,156,0.25)]"
         >
           + 플레이리스트 생성하기
         </Link>

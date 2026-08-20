@@ -52,9 +52,9 @@ export default function LibraryScreen() {
 
   return (
     <PageShell>
-      <div className="relative flex h-37.25 shrink-0 flex-col justify-end gap-4 bg-linear-to-br from-[#67469A] to-[#F73D88] px-4 pb-5 text-white">
+      <div className="relative flex h-26.25 shrink-0 flex-col justify-end gap-4 bg-linear-to-br from-[#67469A] to-[#F73D88] px-4 pb-5 text-white">
         {/* 디자인: 보관함 뒤로가기는 홈으로 간다. */}
-        <Link href="/" aria-label="뒤로가기" className="absolute top-18 left-4">
+        <Link href="/" aria-label="뒤로가기" className="absolute top-7 left-4">
           <Image src="/icons/chevron-left.svg" alt="" width={11} height={20} />
         </Link>
         <h1 className="text-xl font-bold">플레이리스트</h1>

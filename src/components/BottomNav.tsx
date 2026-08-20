@@ -21,21 +21,28 @@ export default function BottomNav({
   homeIcon?: "filled" | "outline";
   profileIcon?: "default" | "small";
 }) {
-  const activeClass = "flex h-12.75 w-19.5 items-center justify-center rounded-full";
+  const pillClass =
+    "absolute top-1/2 left-1/2 h-12.75 w-19.5 -translate-x-1/2 -translate-y-1/2 rounded-full";
+  const homeSize = homeIcon === "outline" ? 32 : 36;
+  const profileSize = profileIcon === "small" ? 25 : 34;
 
   return (
-    <nav className="flex h-18.5 shrink-0 items-center justify-around bg-white shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)]">
+    <nav className="flex h-18.5 shrink-0 items-center justify-between bg-white pl-11.25 pr-10.75 shadow-[0px_-2px_6px_0px_rgba(0,0,0,0.25)]">
       <Link
         href="/"
         aria-label="홈"
-        className={active === "home" ? activeClass : undefined}
-        style={active === "home" ? { backgroundColor: activeColor } : undefined}
+        className="relative flex items-center justify-center"
+        style={{ width: homeSize, height: homeSize }}
       >
+        {active === "home" && (
+          <span aria-hidden className={pillClass} style={{ backgroundColor: activeColor }} />
+        )}
         <Image
           src={homeIcon === "outline" ? "/icons/home-outline.svg" : "/icons/home.svg"}
           alt=""
-          width={homeIcon === "outline" ? 32 : 36}
-          height={homeIcon === "outline" ? 32 : 36}
+          width={homeSize}
+          height={homeSize}
+          className="relative"
         />
       </Link>
       <Link href="/camera" aria-label="플레이리스트 만들기">
@@ -44,14 +51,18 @@ export default function BottomNav({
       <Link
         href="/profile"
         aria-label="프로필"
-        className={active === "profile" ? activeClass : undefined}
-        style={active === "profile" ? { backgroundColor: activeColor } : undefined}
+        className="relative flex items-center justify-center"
+        style={{ width: profileSize, height: profileSize }}
       >
+        {active === "profile" && (
+          <span aria-hidden className={pillClass} style={{ backgroundColor: activeColor }} />
+        )}
         <Image
           src={profileIcon === "small" ? "/icons/profile-small.svg" : "/icons/profile.svg"}
           alt=""
-          width={profileIcon === "small" ? 25 : 34}
-          height={profileIcon === "small" ? 25 : 34}
+          width={profileSize}
+          height={profileSize}
+          className="relative"
         />
       </Link>
     </nav>

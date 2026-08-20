@@ -50,7 +50,7 @@ export default function MyPageScreen() {
 
   return (
     <PageShell>
-      <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto bg-[#fafafa] px-4 pt-13.25">
+      <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto bg-[#fafafa] px-4 pt-7">
         <h1 className="mb-7 text-2xl font-bold text-black">마이페이지</h1>
 
         <div className="flex h-32.25 items-center justify-between rounded-[10px] border-2 border-[#c7c7c7] bg-white px-4">

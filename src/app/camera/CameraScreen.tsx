@@ -103,16 +103,16 @@ export default function CameraScreen() {
             {error}
           </p>
         )}
-
-        <button
-          type="button"
-          aria-label="뒤로가기"
-          onClick={() => router.back()}
-          className="absolute top-5.75 left-4"
-        >
-          <Image src="/icons/chevron-left-black.svg" alt="" width={11} height={20} />
-        </button>
       </div>
+
+      <button
+        type="button"
+        aria-label="뒤로가기"
+        onClick={() => router.back()}
+        className="absolute top-7 left-4"
+      >
+        <Image src="/icons/chevron-left-black.svg" alt="" width={11} height={20} />
+      </button>
 
       <div className="relative flex h-25.75 items-center justify-center bg-white">
         {/* 카메라를 못 쓰는 환경(데스크톱·권한 거부)에서는 파일 선택으로 대체한다. */}

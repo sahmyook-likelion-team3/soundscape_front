@@ -43,7 +43,7 @@ export default function LoginScreen() {
           입력그룹 top515(내부 gap12) + 버튼까지 outer gap33, 링크 top759.
           화면이 이 기준(877px)보다 작으면 스크롤로 나머지를 볼 수 있게 감쌈. */}
       <div className="no-scrollbar relative min-h-0 flex-1 overflow-y-auto">
-        <div className="mt-52 flex shrink-0 justify-center">
+        <div className="mt-41 flex shrink-0 justify-center">
           <Image src="/icons/logo-mark.svg" alt="SoundScape" width={109} height={237} />
         </div>
 

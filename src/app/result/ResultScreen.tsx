@@ -127,7 +127,7 @@ export default function ResultScreen() {
           type="button"
           aria-label="뒤로가기"
           onClick={() => router.replace("/camera")}
-          className="absolute top-18 left-4"
+          className="absolute top-7 left-4"
         >
           <Image src="/icons/chevron-left.svg" alt="" width={11} height={20} />
         </button>

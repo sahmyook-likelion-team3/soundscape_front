@@ -31,7 +31,7 @@ export default function PlayerScreen() {
   const remaining = Math.max(0, duration - player.position);
 
   return (
-    <PageShell className="px-4 pt-18 pb-15.5">
+    <PageShell className="px-4 pt-7 pb-15.5">
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto">
         <button
           type="button"

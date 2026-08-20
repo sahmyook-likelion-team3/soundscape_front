@@ -122,7 +122,7 @@ export default function ResultScreen() {
 
   return (
     <PageShell>
-      <div className="relative flex h-83.5 shrink-0 flex-col bg-linear-to-br from-[#67469A] to-[#F73D88] px-4 pb-4 text-white">
+      <div className="relative flex h-72.5 shrink-0 flex-col bg-linear-to-br from-[#67469A] to-[#F73D88] px-4 pb-4 text-white">
         <button
           type="button"
           aria-label="뒤로가기"

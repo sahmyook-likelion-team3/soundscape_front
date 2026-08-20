@@ -74,7 +74,7 @@ export default function HomePage() {
         </Link>
       </div>
 
-      <div className="flex flex-1 flex-col rounded-t-[10px] bg-white shadow-[0px_-4px_8px_0px_rgba(39,17,72,0.25)]">
+      <div className="flex min-h-0 flex-1 flex-col rounded-t-[10px] bg-white shadow-[0px_-4px_8px_0px_rgba(39,17,72,0.25)]">
         <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-4 pt-8 pb-5">
           <div className="mb-8.5 flex items-center justify-between">
             <h2 className="text-base font-semibold text-[#1b1b1b]">
